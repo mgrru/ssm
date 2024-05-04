@@ -14,9 +14,6 @@ public interface IUser {
     @Select("select * from user")
     public List<User> selectAll();
 
-    @Select("select max(id) from user")
-    public int selectMaxId();
-
     @Select("select * from user where name=#{name}")
     public User selectName(@Param("name") String name);
 
