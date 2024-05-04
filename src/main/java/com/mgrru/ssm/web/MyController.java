@@ -6,10 +6,7 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -26,9 +23,9 @@ public class MyController {
         return "你好" + name;
     }
 
-    @RequestMapping(value = "/user/ad", produces = "application/json;charset=utf-8")
+    @PostMapping(value = "/user/add", produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String ad(@RequestParam("name") String name, @RequestBody MultipartFile file) throws IOException {
+    public String add(@RequestParam("name") String name, @RequestBody MultipartFile file) throws IOException {
         File dir = new File("D:\\java\\files\\" + name);
         if (!dir.exists()) {
             dir.mkdirs();
