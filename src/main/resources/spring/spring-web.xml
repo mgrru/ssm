@@ -21,14 +21,18 @@
 		(1)加入对静态资源的处理：js,gif,png
 		(2)允许使用"/"做整体映射
 	 -->
-	 <mvc:default-servlet-handler/>
-	 
-	 <!-- 3.配置jsp 显示ViewResolver -->
-	 <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-	 	<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
-	 	<property name="prefix" value="/WEB-INF/jsp/" />
-	 	<property name="suffix" value=".jsp" />
-	 </bean>
+<!--	 <mvc:default-servlet-handler/>-->
+<!--	 -->
+<!--	 &lt;!&ndash; 3.配置jsp 显示ViewResolver &ndash;&gt;-->
+<!--	 <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+<!--	 	<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />-->
+<!--	 	<property name="prefix" value="/WEB-INF/jsp/" />-->
+<!--	 	<property name="suffix" value=".jsp" />-->
+<!--	 </bean>-->
+
+	<bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"></bean>
+
+	<mvc:resources location="/files/" mapping="/files/**"></mvc:resources>
 	 
 	 <!-- 4.扫描web相关的bean -->
 	 <context:component-scan base-package="com.mgrru.ssm.web" />

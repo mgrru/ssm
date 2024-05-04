@@ -7,6 +7,7 @@ import com.mgrru.ssm.entity.User;
 import jakarta.annotation.Resource;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
@@ -20,7 +21,11 @@ public class UserServiceAdvice {
     @Resource(name = "IUser")
     private IUser iUser;
 
-    @Before("execution(* com.mgrru.ssm.service.UserService.addUser(..)) && args(user)")
+    @Pointcut(value = "execution(* com.mgrru.ssm.service.UserService.addUser(..)) && args(user)")
+    public void addUserPointcut(User user) {
+    }
+
+    @Before(value = "addUserPointcut(user)", argNames = "user")
     public void beforeAddUser(User user) {
         Log log = new Log(new Timestamp(System.currentTimeMillis()),
                 "add user : " + (iUser.selectMaxId() + 1) + " " + user.getName() + " "
