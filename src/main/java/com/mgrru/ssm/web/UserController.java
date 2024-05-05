@@ -1,10 +1,10 @@
 package com.mgrru.ssm.web;
 
+import com.google.gson.Gson;
 import com.mgrru.ssm.entity.User;
 import com.mgrru.ssm.service.UserService;
+import jakarta.annotation.Resource;
 import org.apache.commons.io.FileUtils;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,12 +15,21 @@ import java.util.UUID;
 
 
 @Controller
-public class MyController {
+public class UserController {
+    @Resource
+    private UserService us;
+
 
     @RequestMapping(value = "/user/sss", produces = "application/json;charset=utf-8")
     @ResponseBody
     public String find(@RequestBody String name) {
         return "你好" + name;
+    }
+
+    @RequestMapping(value = "/user/select", produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String find() {
+        return new Gson().toJson(us.selectAll());
     }
 
     @PostMapping(value = "/user/add", produces = "application/json;charset=utf-8")
@@ -36,8 +45,6 @@ public class MyController {
             suffix = oriname.substring(oriname.lastIndexOf("."));
         }
         if (suffix.equalsIgnoreCase(".png") || suffix.equalsIgnoreCase(".jpg")) { // 判断文件的后缀
-            ApplicationContext ac = new ClassPathXmlApplicationContext("spring/spring-*.xml");
-            UserService us = ac.getBean("userService", UserService.class);
 
             String uuid = UUID.randomUUID().toString();// 生成一个新的文件名，避免文件同名出现文件覆盖的现象
             String newName = uuid + suffix;
