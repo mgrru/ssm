@@ -11,8 +11,8 @@ import java.util.List;
 public interface ILog {
 
     @Select("select * from log")
-    public List<Log> selectAll();
+    List<Log> selectAll();
 
     @Select("insert into log values (#{time},#{desc})")
-    public void add(Log log);
+    void add(Log log);
 }
