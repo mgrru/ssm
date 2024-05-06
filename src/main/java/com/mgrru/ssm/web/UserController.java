@@ -37,10 +37,8 @@ public class UserController {
 
     @PostMapping(value = "/user/del", produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String del(@RequestBody String json) {
-        System.out.println("json" + json);
+    public String del(@RequestBody String json) throws IOException {
         User user = new Gson().fromJson(json, User.class);
-        System.out.println("id" + user.getId());
         return us.deleteUser(user.getId());
     }
 }

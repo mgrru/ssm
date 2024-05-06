@@ -56,9 +56,17 @@ public class UserService {
     }
 
     @Transactional
-    public String deleteUser(Integer id) {
+    public String deleteUser(Integer id) throws IOException {
 
         if (iUser.delete(id)) {
+            User user = iUser.selectId(id);
+            File dir = new File(user.getPath());
+            // 获取父文件夹
+            File parentDir = dir.getParentFile();
+            // 删除父文件夹
+            if (parentDir != null && parentDir.exists()) {
+                FileUtils.deleteDirectory(parentDir);
+            }
             return "删除成功";
         } else {
             return "删除失败";
