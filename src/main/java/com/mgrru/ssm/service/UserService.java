@@ -20,7 +20,6 @@ public class UserService {
     @Resource(name = "IUser")
     private IUser iUser;
 
-
     @Transactional
     public String addUser(String name, MultipartFile file) throws IOException {
         if (iUser.selectName(name) != null) {
@@ -54,6 +53,17 @@ public class UserService {
     @Transactional
     public void updateUser(User user) {
         iUser.update(user);
+    }
+
+    @Transactional
+    public String deleteUser(Integer id) {
+
+        if (iUser.delete(id)) {
+            return "删除成功";
+        } else {
+            return "删除失败";
+        }
+
     }
 
     @Transactional(readOnly = true)
