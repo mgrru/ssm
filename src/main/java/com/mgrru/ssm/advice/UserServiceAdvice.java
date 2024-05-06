@@ -5,8 +5,8 @@ import com.mgrru.ssm.dao.IUser;
 import com.mgrru.ssm.entity.Log;
 import com.mgrru.ssm.entity.User;
 import jakarta.annotation.Resource;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
@@ -21,18 +21,17 @@ public class UserServiceAdvice {
     @Resource
     private IUser iUser;
 
-    @Pointcut(value = "execution(* com.mgrru.ssm.service.UserService.addUser(..)) && args(user)")
-    public void addUserPointcut(User user) {
+    @Pointcut(value = "execution(* com.mgrru.ssm.service.UserService.addUser(..)) && args(name)")
+    public void addUserPointcut(String name) {
     }
 
-    @Before(value = "addUserPointcut(user)", argNames = "user")
-    public void beforeAddUser(User user) {
-        Log log = new Log(new Timestamp(System.currentTimeMillis()),
-                "add user : " + user.getName() + " "
-                        + user.getPhoto() + " " + user.getPath());
-        if (iUser.selectName(user.getName()) == null) {
+    @After(value = "addUserPointcut(name)", argNames = "name")
+    public void afterAddUser(String name) {
+        User user = iUser.selectName(name);
+        if (user != null) {
+            Log log = new Log(new Timestamp(System.currentTimeMillis()),
+                    "添加用户 : " + user);
             iLog.add(log);
-            System.out.println("添加log");
         }
     }
 }
