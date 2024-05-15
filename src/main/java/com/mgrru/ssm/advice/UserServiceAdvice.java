@@ -24,7 +24,6 @@ public class UserServiceAdvice {
     @Resource(name = "IUser")
     private IUser iUser;
 
-
     @Pointcut(value = "execution(* com.mgrru.ssm.service.UserService.addUser(..))")
     public void addUserPointcut() {
     }
